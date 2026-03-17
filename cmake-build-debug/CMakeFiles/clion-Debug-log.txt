@@ -1,0 +1,4 @@
+/Users/lampis/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Users/lampis/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/lampis/Documents/GitHub/Record-Management-System -B /Users/lampis/Documents/GitHub/Record-Management-System/cmake-build-debug
+-- Configuring done (7.1s)
+-- Generating done (6.1s)
+-- Build files have been written to: /Users/lampis/Documents/GitHub/Record-Management-System/cmake-build-debug

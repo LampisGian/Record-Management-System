@@ -1,0 +1,3 @@
+/Users/lampis/Documents/GitHub/Record-Management-System/cmake-build-debug/CMakeFiles/Record_Management_System.dir
+/Users/lampis/Documents/GitHub/Record-Management-System/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/lampis/Documents/GitHub/Record-Management-System/cmake-build-debug/CMakeFiles/rebuild_cache.dir

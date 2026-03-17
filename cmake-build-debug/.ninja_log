@@ -1,0 +1,10 @@
+# ninja log v6
+7	3131	1773756123024127205	CMakeFiles/Record_Management_System.dir/Source_Code_/Book.cpp.o	e2be8ccf23433016
+10	5034	1773756123026354298	CMakeFiles/Record_Management_System.dir/Source_Code_/FileManager.cpp.o	5b6a3450d2b4b65d
+10	4629	1773756123026790167	CMakeFiles/Record_Management_System.dir/Source_Code_/main.cpp.o	6675c26c4aab5ab1
+8	1137	1773756123024934944	CMakeFiles/Record_Management_System.dir/Source_Code_/DatabaseManager.cpp.o	67752a7efa54efac
+8	2416	1773756386983012500	Record_Management_System	f1045645dbd41c25
+9	1859	1773756562488541206	CMakeFiles/Record_Management_System.dir/Source_Code_/DatabaseManager.cpp.o	67752a7efa54efac
+1860	2114	1773756564339887461	Record_Management_System	f1045645dbd41c25
+4998	6787	1773756956639457450	CMakeFiles/Record_Management_System.dir/Source_Code_/main.cpp.o	6675c26c4aab5ab1
+6788	9835	1773756958429166335	Record_Management_System	f1045645dbd41c25
