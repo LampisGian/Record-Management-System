@@ -8,7 +8,8 @@
 #include "DatabaseManager.hpp"
 using namespace std;
 
-class BookService {
+class BookService
+{
 private:
     FileManager& fileManager;
     DatabaseManager& dbManager;
@@ -21,6 +22,10 @@ public:
     void displayAllBooks();
     bool searchBookByID(int bookId);
     bool deleteRecord(int bookId);
-};
+    bool findBookByID(int bookId, Book& foundBook);
+    bool updateRecord(const Book& book);
+    void sortBooksByTitle();
+    void sortBooksByYear();
 
+};
 #endif //BOOKSERVICE_HPP

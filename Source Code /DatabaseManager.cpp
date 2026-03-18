@@ -159,3 +159,77 @@ bool DatabaseManager::deleteRecordFromDB(int bookId)
 
     return true;
 }
+
+bool DatabaseManager::findRecordByIDInDB(int bookId, Book& foundBook)
+{
+    string query =
+        "SELECT book_id, title, author, genre, publication_year, quantity, publisher, language, pages, age_suitability "
+        "FROM books WHERE book_id = " + to_string(bookId);
+
+    if (mysql_query(conn, query.c_str())) {
+        cout << "Search failed: " << mysql_error(conn) << endl;
+        return false;
+    }
+
+    MYSQL_RES* result = mysql_store_result(conn);
+
+    if (result == NULL)
+    {
+        cout << "mysql_store_result failed: " << mysql_error(conn) << endl;
+        return false;
+    }
+
+    MYSQL_ROW row = mysql_fetch_row(result);
+
+    if (row == NULL)
+    {
+        mysql_free_result(result);
+        return false;
+    }
+
+    foundBook = Book(
+        row[0] ? stoi(row[0]) : 0,
+        row[1] ? row[1] : "",
+        row[2] ? row[2] : "",
+        row[3] ? row[3] : "",
+        row[4] ? stoi(row[4]) : 0,
+        row[5] ? stoi(row[5]) : 0,
+        row[6] ? row[6] : "",
+        row[7] ? row[7] : "",
+        row[8] ? stoi(row[8]) : 0,
+        row[9] ? stoi(row[9]) : 0
+    );
+
+    mysql_free_result(result);
+    return true;
+}
+
+bool DatabaseManager::updateRecordInDB(const Book& book)
+{
+    string query =
+        "UPDATE books SET "
+        "title = '" + book.getTitle() + "', "
+        "author = '" + book.getAuthor() + "', "
+        "genre = '" + book.getGenre() + "', "
+        "publication_year = " + to_string(book.getPublicationYear()) + ", "
+        "quantity = " + to_string(book.getQuantity()) + ", "
+        "publisher = '" + book.getPublisher() + "', "
+        "language = '" + book.getLanguage() + "', "
+        "pages = " + to_string(book.getPages()) + ", "
+        "age_suitability = " + to_string(book.getAgeSuitability()) + " "
+        "WHERE book_id = " + to_string(book.getBookId());
+
+    if (mysql_query(conn, query.c_str()))
+    {
+        cout << "Update failed: " << mysql_error(conn) << endl;
+        return false;
+    }
+
+    if (mysql_affected_rows(conn) == 0)
+    {
+        cout << "No record found with Book ID " << book.getBookId() << ".\n";
+        return false;
+    }
+
+    return true;
+}

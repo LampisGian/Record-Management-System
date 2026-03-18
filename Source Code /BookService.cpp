@@ -38,9 +38,35 @@ bool BookService::searchBookByID(int bookId)
 
 bool BookService::deleteRecord(int bookId)
 {
-    if (!dbManager.deleteRecordFromDB(bookId)) {
+    if (!dbManager.deleteRecordFromDB(bookId))
+    {
         return false;
     }
 
     return syncFileWithDatabase();
+}
+
+bool BookService::findBookByID(int bookId, Book& foundBook)
+{
+    return dbManager.findRecordByIDInDB(bookId, foundBook);
+}
+
+bool BookService::updateRecord(const Book& book)
+{
+    if (!dbManager.updateRecordInDB(book))
+    {
+        return false;
+    }
+
+    return syncFileWithDatabase();
+}
+
+void BookService::sortBooksByTitle()
+{
+    fileManager.sortRecordsByTitle();
+}
+
+void BookService::sortBooksByYear()
+{
+    fileManager.sortRecordsByYear();
 }

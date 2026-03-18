@@ -22,6 +22,57 @@ void showMenu() {
     cout << "Enter your choice: ";
 }
 
+Book editBook(const Book& oldBook) {
+    string title, author, genre, publisher, language;
+    int publicationYear, quantity, pages, ageSuitability;
+
+    cout << "\nCurrent record:\n";
+    cout << "--------------------------\n";
+    oldBook.display();
+
+    cout << "\nEnter new Title: ";
+    getline(cin, title);
+
+    cout << "Enter new Author: ";
+    getline(cin, author);
+
+    cout << "Enter new Genre: ";
+    getline(cin, genre);
+
+    cout << "Enter new Publication Year: ";
+    cin >> publicationYear;
+
+    cout << "Enter new Quantity: ";
+    cin >> quantity;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cout << "Enter new Publisher: ";
+    getline(cin, publisher);
+
+    cout << "Enter new Language: ";
+    getline(cin, language);
+
+    cout << "Enter new Pages: ";
+    cin >> pages;
+
+    cout << "Enter new Age Suitability: ";
+    cin >> ageSuitability;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    return Book(
+        oldBook.getBookId(),
+        title,
+        author,
+        genre,
+        publicationYear,
+        quantity,
+        publisher,
+        language,
+        pages,
+        ageSuitability
+    );
+}
+
 Book inputBook() {
     int bookId, publicationYear, quantity, pages, ageSuitability;
     string title, author, genre, publisher, language;
@@ -113,8 +164,28 @@ int main() {
             }
 
             case 4:
-                cout << "Update Book will be implemented next.\n";
+            {
+                int updateId;
+                cout << "Enter Book ID to update: ";
+                cin >> updateId;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                Book existingBook;
+
+                if (!bookService.findBookByID(updateId, existingBook)) {
+                    cout << "\nNo record found with Book ID " << updateId << ".\n";
+                    break;
+                }
+
+                Book updatedBook = editBook(existingBook);
+
+                if (bookService.updateRecord(updatedBook)) {
+                    cout << "\nBook updated successfully.\n";
+                } else {
+                    cout << "\nFailed to update book.\n";
+                }
                 break;
+            }
 
             case 5: {
                 int deleteId;
@@ -132,10 +203,12 @@ int main() {
 
             case 6:
                 cout << "Sort Books by Title will be implemented next.\n";
+                bookService.sortBooksByTitle();
                 break;
 
             case 7:
                 cout << "Sort Books by Publication Year will be implemented next.\n";
+                bookService.sortBooksByYear();
                 break;
 
             case 8:

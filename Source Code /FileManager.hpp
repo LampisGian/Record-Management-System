@@ -23,7 +23,8 @@ public:
     void displayAllRecords();
     bool rewriteAllRecords(const vector<Book>& books);
     bool searchRecordByID(int bookId);
-
+    void sortRecordsByTitle();
+    void sortRecordsByYear();
 };
 
 #endif //FILEMANAGER_HPP

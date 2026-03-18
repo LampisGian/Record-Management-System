@@ -3,7 +3,7 @@
 //
 
 #include "FileManager.hpp"
-
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 using namespace std;
@@ -110,4 +110,44 @@ bool FileManager::searchRecordByID(int bookId) {
 
     cout << "\nBook with ID " << bookId << " was not found.\n";
     return false;
+}
+
+void FileManager::sortRecordsByTitle() {
+    vector<Book> books = readAllRecords();
+
+    if (books.empty()) {
+        cout << "\nNo records found in file.\n";
+        return;
+    }
+
+    sort(books.begin(), books.end(), [](const Book& a, const Book& b) {
+        return a.getTitle() < b.getTitle();
+    });
+
+    cout << "\n========== Books Sorted by Title ==========\n";
+    for (int i = 0; i < books.size(); i++) {
+        cout << "\nRecord #" << i + 1 << endl;
+        cout << "--------------------------\n";
+        books[i].display();
+    }
+}
+
+void FileManager::sortRecordsByYear() {
+    vector<Book> books = readAllRecords();
+
+    if (books.empty()) {
+        cout << "\nNo records found in file.\n";
+        return;
+    }
+
+    sort(books.begin(), books.end(), [](const Book& a, const Book& b) {
+        return a.getPublicationYear() < b.getPublicationYear();
+    });
+
+    cout << "\n========== Books Sorted by Publication Year ==========\n";
+    for (int i = 0; i < books.size(); i++) {
+        cout << "\nRecord #" << i + 1 << endl;
+        cout << "--------------------------\n";
+        books[i].display();
+    }
 }
