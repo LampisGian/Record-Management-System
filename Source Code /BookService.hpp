@@ -26,6 +26,6 @@ public:
     bool updateRecord(const Book& book);
     void sortBooksByTitle();
     void sortBooksByYear();
-
+    bool exportBooksToCSV(const string& csvFilename);
 };
 #endif //BOOKSERVICE_HPP

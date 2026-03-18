@@ -212,8 +212,17 @@ int main() {
                 break;
 
             case 8:
-                cout << "Export Books to CSV will be implemented next.\n";
+                {
+                string csvPath = "/Users/lampis/Documents/GitHub/Record-Management-System/books.csv";
+
+                if (bookService.exportBooksToCSV(csvPath)) {
+                    cout << "\nBooks exported successfully to CSV.\n";
+                    cout << "CSV file: " << csvPath << endl;
+                } else {
+                    cout << "\nFailed to export books to CSV.\n";
+                }
                 break;
+                }
 
             case 9:
                 cout << "Exiting program...\n";

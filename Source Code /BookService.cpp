@@ -70,3 +70,8 @@ void BookService::sortBooksByYear()
 {
     fileManager.sortRecordsByYear();
 }
+
+bool BookService::exportBooksToCSV(const string& csvFilename)
+{
+    return fileManager.exportToCSV(csvFilename);
+}

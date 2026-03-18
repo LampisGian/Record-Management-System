@@ -25,6 +25,7 @@ public:
     bool searchRecordByID(int bookId);
     void sortRecordsByTitle();
     void sortRecordsByYear();
+    bool exportToCSV(const string& csvFilename);
 };
 
 #endif //FILEMANAGER_HPP

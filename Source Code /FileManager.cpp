@@ -151,3 +151,34 @@ void FileManager::sortRecordsByYear() {
         books[i].display();
     }
 }
+
+bool FileManager::exportToCSV(const string& csvFilename)
+{
+    vector<Book> books = readAllRecords();
+
+    ofstream csvFile(csvFilename);
+
+    if (!csvFile.is_open())
+    {
+        cout << "Error: Could not open CSV file: " << csvFilename << endl;
+        return false;
+    }
+
+    csvFile << "Book ID,Title,Author,Genre,Publication Year,Quantity,Publisher,Language,Pages,Age Suitability\n";
+
+    for (const Book& book : books) {
+        csvFile << book.getBookId() << ","
+                << "\"" << book.getTitle() << "\","
+                << "\"" << book.getAuthor() << "\","
+                << "\"" << book.getGenre() << "\","
+                << book.getPublicationYear() << ","
+                << book.getQuantity() << ","
+                << "\"" << book.getPublisher() << "\","
+                << "\"" << book.getLanguage() << "\","
+                << book.getPages() << ","
+                << book.getAgeSuitability() << "\n";
+    }
+
+    csvFile.close();
+    return true;
+}
