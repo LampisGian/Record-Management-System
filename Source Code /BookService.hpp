@@ -27,5 +27,6 @@ public:
     void sortBooksByTitle();
     void sortBooksByYear();
     bool exportBooksToCSV(const string& csvFilename);
+    bool isBookIDExists(int bookId);
 };
 #endif //BOOKSERVICE_HPP

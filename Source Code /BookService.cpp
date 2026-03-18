@@ -75,3 +75,9 @@ bool BookService::exportBooksToCSV(const string& csvFilename)
 {
     return fileManager.exportToCSV(csvFilename);
 }
+
+bool BookService::isBookIDExists(int bookId)
+{
+    Book foundBook;
+    return dbManager.findRecordByIDInDB(bookId, foundBook);
+}
