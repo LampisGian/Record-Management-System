@@ -5,8 +5,86 @@
 #include "FileManager.hpp"
 #include "DatabaseManager.hpp"
 #include "BookService.hpp"
+#include <ctime>
 
 using namespace std;
+
+int getCurrentYear() {
+    time_t now = time(0);
+    tm* localTime = localtime(&now);
+    return 1900 + localTime->tm_year;
+}
+
+
+
+int readInt(const string& message) {
+    int value;
+
+    while (true) {
+        cout << message;
+        cin >> value;
+
+        if (cin.fail()) {
+            cout << "Invalid input. Please enter a valid number.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            continue;
+        }
+
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        return value;
+    }
+}
+
+int readPositiveInt(const string& message) {
+    int value;
+
+    while (true) {
+        value = readInt(message);
+
+        if (value < 0) {
+            cout << "Value cannot be negative. Please try again.\n";
+            continue;
+        }
+
+        return value;
+    }
+}
+
+int readValidYear(const string& message)
+{
+    int year;
+    int currentYear = getCurrentYear();
+
+    while (true)
+    {
+        year = readPositiveInt(message);
+
+        if (year > currentYear)
+        {
+            cout << "Future years are not allowed. Current year is " << currentYear << ".\n";
+            continue;
+        }
+
+        return year;
+    }
+}
+
+string readNonEmptyString(const string& message) {
+    string value;
+
+    while (true) {
+        cout << message;
+        getline(cin, value);
+
+        if (value.empty()) {
+            cout << "This field cannot be empty. Please try again.\n";
+            continue;
+        }
+
+        return value;
+    }
+}
 
 void showMenu() {
     cout << "\n========== Library Book Management System ==========\n";
@@ -23,41 +101,19 @@ void showMenu() {
 }
 
 Book editBook(const Book& oldBook) {
-    string title, author, genre, publisher, language;
-    int publicationYear, quantity, pages, ageSuitability;
-
     cout << "\nCurrent record:\n";
     cout << "--------------------------\n";
     oldBook.display();
 
-    cout << "\nEnter new Title: ";
-    getline(cin, title);
-
-    cout << "Enter new Author: ";
-    getline(cin, author);
-
-    cout << "Enter new Genre: ";
-    getline(cin, genre);
-
-    cout << "Enter new Publication Year: ";
-    cin >> publicationYear;
-
-    cout << "Enter new Quantity: ";
-    cin >> quantity;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "Enter new Publisher: ";
-    getline(cin, publisher);
-
-    cout << "Enter new Language: ";
-    getline(cin, language);
-
-    cout << "Enter new Pages: ";
-    cin >> pages;
-
-    cout << "Enter new Age Suitability: ";
-    cin >> ageSuitability;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    string title = readNonEmptyString("\nEnter new Title: ");
+    string author = readNonEmptyString("Enter new Author: ");
+    string genre = readNonEmptyString("Enter new Genre: ");
+    int publicationYear = readPositiveInt("Enter new Publication Year: ");
+    int quantity = readPositiveInt("Enter new Quantity: ");
+    string publisher = readNonEmptyString("Enter new Publisher: ");
+    string language = readNonEmptyString("Enter new Language: ");
+    int pages = readPositiveInt("Enter new Pages: ");
+    int ageSuitability = readPositiveInt("Enter new Age Suitability: ");
 
     return Book(
         oldBook.getBookId(),
@@ -74,41 +130,16 @@ Book editBook(const Book& oldBook) {
 }
 
 Book inputBook() {
-    int bookId, publicationYear, quantity, pages, ageSuitability;
-    string title, author, genre, publisher, language;
-
-    cout << "Enter Book ID: ";
-    cin >> bookId;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "Enter Title: ";
-    getline(cin, title);
-
-    cout << "Enter Author: ";
-    getline(cin, author);
-
-    cout << "Enter Genre: ";
-    getline(cin, genre);
-
-    cout << "Enter Publication Year: ";
-    cin >> publicationYear;
-
-    cout << "Enter Quantity: ";
-    cin >> quantity;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-    cout << "Enter Publisher: ";
-    getline(cin, publisher);
-
-    cout << "Enter Language: ";
-    getline(cin, language);
-
-    cout << "Enter Pages: ";
-    cin >> pages;
-
-    cout << "Enter Age Suitability: ";
-    cin >> ageSuitability;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    int bookId = readPositiveInt("Enter Book ID: ");
+    string title = readNonEmptyString("Enter Title: ");
+    string author = readNonEmptyString("Enter Author: ");
+    string genre = readNonEmptyString("Enter Genre: ");
+    int publicationYear = readPositiveInt("Enter Publication Year: ");
+    int quantity = readPositiveInt("Enter Quantity: ");
+    string publisher = readNonEmptyString("Enter Publisher: ");
+    string language = readNonEmptyString("Enter Language: ");
+    int pages = readPositiveInt("Enter Pages: ");
+    int ageSuitability = readPositiveInt("Enter Age Suitability: ");
 
     return Book(bookId, title, author, genre, publicationYear, quantity,
                 publisher, language, pages, ageSuitability);
@@ -134,12 +165,17 @@ int main() {
 
     do {
         showMenu();
-        cin >> choice;
+        choice = readInt("Enter your choice: ");
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (choice) {
             case 1: {
                 Book newBook = inputBook();
+
+                if (bookService.isBookIDExists(newBook.getBookId())) {
+                    cout << "\nA book with this ID already exists. Please use a different ID.\n";
+                    break;
+                }
 
                 if (bookService.addBook(newBook)) {
                     cout << "\nBook added successfully.\n";
@@ -154,21 +190,14 @@ int main() {
                 break;
 
             case 3: {
-                int searchId;
-                cout << "Enter Book ID to search: ";
-                cin >> searchId;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
+                int searchId = readPositiveInt("Enter Book ID to search: ");
                 bookService.searchBookByID(searchId);
                 break;
             }
 
             case 4:
             {
-                int updateId;
-                cout << "Enter Book ID to update: ";
-                cin >> updateId;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                int updateId = readPositiveInt("Enter Book ID to update: ");
 
                 Book existingBook;
 
@@ -188,10 +217,7 @@ int main() {
             }
 
             case 5: {
-                int deleteId;
-                cout << "Enter Book ID to delete: ";
-                cin >> deleteId;
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                int deleteId = readPositiveInt("Enter Book ID to delete: ");
 
                 if (bookService.deleteRecord(deleteId)) {
                     cout << "\nBook deleted successfully.\n";
