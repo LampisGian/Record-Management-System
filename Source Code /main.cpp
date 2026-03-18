@@ -18,8 +18,6 @@ int getCurrentYear()
     return 1900 + localTime->tm_year;
 }
 
-
-
 int readInt(const string& message) 
 {
     int value;
@@ -189,7 +187,7 @@ int main()
     do 
     {
         showMenu();
-        choice = readInt("Enter your choice: ");
+        cin >> choice;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
         switch (choice) 
