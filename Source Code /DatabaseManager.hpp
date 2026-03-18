@@ -7,6 +7,8 @@
 
 #include "Book.hpp"
 #include <mysql.h>
+#include <vector>
+
 using namespace std;
 
 class DatabaseManager
@@ -22,6 +24,7 @@ public:
     void closeDB();
     bool createTable();
     bool addRecordToDB(const Book& book);
+    vector<Book> getAllRecords();
 };
 
 #endif //DATABASEMANAGER_HPP

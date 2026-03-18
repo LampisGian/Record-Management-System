@@ -5,6 +5,7 @@
 #include "FileManager.hpp"
 
 #include <fstream>
+#include <iostream>
 using namespace std;
 
 FileManager::FileManager(const string& fileName) : fileName(fileName)
@@ -29,6 +30,67 @@ bool FileManager::addRecord(const Book& book)
             << book.getLanguage() << "|"
             << book.getPages() << "|"
             << book.getAgeSuitability() << "\n";
+
+    outFile.close();
+    return true;
+}
+
+vector<Book> FileManager::readAllRecords()
+{
+    vector<Book> books;
+    ifstream inFile(fileName);
+
+    if (!inFile.is_open())
+        {
+        cout << "Error: Could not open file for reading: " << fileName << endl;
+        return books;
+    }
+
+    string line;
+    while (getline(inFile, line)) {
+        if (line.empty()) {
+            continue;
+        }
+
+        try {
+            books.push_back(Book::fromFileString(line));
+        } catch (...) {
+            cout << "Warning: Invalid line skipped.\n";
+        }
+    }
+
+    inFile.close();
+    return books;
+}
+
+void FileManager::displayAllRecords() {
+    vector<Book> books = readAllRecords();
+
+    if (books.empty()) {
+        cout << "\nNo records found in file.\n";
+        return;
+    }
+
+    cout << "\n========== All Book Records ==========\n";
+    for (int i = 0; i < books.size(); i++) {
+        cout << "\nRecord #" << i + 1 << endl;
+        cout << "--------------------------\n";
+        books[i].display();
+    }
+}
+
+bool FileManager::rewriteAllRecords(const vector<Book>& books)
+{
+    ofstream outFile(fileName, ios::trunc);
+
+    if (!outFile.is_open()) {
+        cout << "Error: Could not open file for rewriting: " << fileName << endl;
+        return false;
+    }
+
+    for (const Book& book : books) {
+        outFile << book.toFileString() << "\n";
+    }
 
     outFile.close();
     return true;

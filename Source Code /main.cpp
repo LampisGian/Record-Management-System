@@ -1,16 +1,13 @@
-//
-// Created by Charalampos Giannelis on 17/3/26.
-//
 #include <iostream>
 #include <limits>
+#include <vector>
 #include "Book.hpp"
 #include "FileManager.hpp"
 #include "DatabaseManager.hpp"
 
 using namespace std;
 
-void showMenu()
-{
+void showMenu() {
     cout << "\n========== Library Book Management System ==========\n";
     cout << "1. Add Book\n";
     cout << "2. Display All Books\n";
@@ -24,8 +21,7 @@ void showMenu()
     cout << "Enter your choice: ";
 }
 
-Book inputBook()
-{
+Book inputBook() {
     int bookId, publicationYear, quantity, pages, ageSuitability;
     string title, author, genre, publisher, language;
 
@@ -60,64 +56,60 @@ Book inputBook()
 
     cout << "Enter Age Suitability: ";
     cin >> ageSuitability;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    Book book(bookId, title, author, genre, publicationYear, quantity,
-              publisher, language, pages, ageSuitability);
-
-    return book;
+    return Book(bookId, title, author, genre, publicationYear, quantity,
+                publisher, language, pages, ageSuitability);
 }
 
-int main()
-{
+int main() {
     int choice;
+
     FileManager fileManager("/Users/lampis/Documents/GitHub/Record-Management-System/books.txt");
     DatabaseManager dbManager;
 
-    if (!dbManager.connectDB())
-        {
-            cout << "Warning: Program continues, but database is not connected.\n";
-        }
-    else
-        {
-            dbManager.createTable();
+    if (!dbManager.connectDB()) {
+        cout << "Warning: Program continues, but database is not connected.\n";
+    } else {
+        if (dbManager.createTable()) {
+            cout << "Table ready.\n";
         }
 
-    do
-        {
+        vector<Book> allBooks = dbManager.getAllRecords();
+        cout << "Books loaded at startup: " << allBooks.size() << endl;
+
+        if (fileManager.rewriteAllRecords(allBooks)) {
+            cout << "File synchronized with database successfully at startup.\n";
+        } else {
+            cout << "Failed to synchronize file at startup.\n";
+        }
+    }
+
+    do {
         showMenu();
         cin >> choice;
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        switch (choice)
-            {
-            case 1:
-                {
+        switch (choice) {
+            case 1: {
                 Book newBook = inputBook();
 
-                bool fileSaved = fileManager.addRecord(newBook);
-                bool dbSaved = dbManager.addRecordToDB(newBook);
+                if (dbManager.addRecordToDB(newBook)) {
+                    vector<Book> allBooks = dbManager.getAllRecords();
 
-                if (fileSaved && dbSaved)
-                    {
-                    cout << "\nBook added successfully to file and database.\n";
+                    if (fileManager.rewriteAllRecords(allBooks)) {
+                        cout << "\nBook added successfully. File synchronized with database.\n";
+                    } else {
+                        cout << "\nBook added to database, but file synchronization failed.\n";
                     }
-                else if (fileSaved && !dbSaved)
-                    {
-                    cout << "\nBook added to file, but database insert failed.\n";
-                    }
-                else if (!fileSaved && dbSaved)
-                    {
-                    cout << "\nBook added to database, but file write failed.\n";
-                    }
-                else
-                    {
-                    cout << "\nFailed to add book to both file and database.\n";
-                    }
+                } else {
+                    cout << "\nDatabase insert failed. File was not updated.\n";
+                }
                 break;
             }
 
             case 2:
-                cout << "Display All Books will be implemented next.\n";
+                fileManager.displayAllRecords();
                 break;
 
             case 3:

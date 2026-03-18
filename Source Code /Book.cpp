@@ -4,6 +4,8 @@
 
 #include "Book.hpp"
 #include <iostream>
+#include <sstream>
+#include <vector>
 using namespace std;
 
 Book::Book()
@@ -153,4 +155,48 @@ void Book::display() const
     cout << "Language: " << language << endl;
     cout << "Pages: " << pages << endl;
     cout << "Age Suitability: " << ageSuitability << "+" << endl;
+}
+
+string Book::toFileString() const
+{
+    return to_string(bookId) + "|" +
+           title + "|" +
+           author + "|" +
+           genre + "|" +
+           to_string(publicationYear) + "|" +
+           to_string(quantity) + "|" +
+           publisher + "|" +
+           language + "|" +
+           to_string(pages) + "|" +
+           to_string(ageSuitability);
+}
+
+Book Book::fromFileString(const string& line)
+{
+    stringstream ss(line);
+    vector<string> fields;
+    string part;
+
+    while (getline(ss, part, '|'))
+    {
+        fields.push_back(part);
+    }
+
+    if (fields.size() != 10)
+    {
+        throw runtime_error("Invalid record format in file.");
+    }
+
+    return Book(
+        stoi(fields[0]),
+        fields[1],
+        fields[2],
+        fields[3],
+        stoi(fields[4]),
+        stoi(fields[5]),
+        fields[6],
+        fields[7],
+        stoi(fields[8]),
+        stoi(fields[9])
+    );
 }

@@ -6,6 +6,7 @@
 #define FILEMANAGER_HPP
 
 #include <string>
+#include <vector>
 #include "Book.hpp"
 using namespace std;
 
@@ -18,6 +19,9 @@ public:
     FileManager(const string& fileName);
 
     bool addRecord(const Book& book);
+    vector<Book> readAllRecords();
+    void displayAllRecords();
+    bool rewriteAllRecords(const vector<Book>& books);
 };
 
 #endif //FILEMANAGER_HPP

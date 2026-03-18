@@ -58,6 +58,8 @@ class Book
     void setAgeSuitability(int ageSuitability);
 
     void display() const;
+    string toFileString() const;
+    static Book fromFileString(const string& line);
 };
 
 #endif //ΒΟΟΚ_HPP

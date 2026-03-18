@@ -95,3 +95,48 @@ bool DatabaseManager::addRecordToDB(const Book& book)
 
     return true;
 }
+
+vector<Book> DatabaseManager::getAllRecords()
+{
+    vector<Book> books;
+
+    string query =
+        "SELECT book_id, title, author, genre, publication_year, quantity, publisher, language, pages, age_suitability FROM books";
+
+    if (mysql_query(conn, query.c_str()))
+    {
+        cout << "Fetch failed: " << mysql_error(conn) << endl;
+        return books;
+    }
+
+    MYSQL_RES* result = mysql_store_result(conn);
+
+    if (result == NULL)
+    {
+        cout << "Result store failed: " << mysql_error(conn) << endl;
+        return books;
+    }
+
+    MYSQL_ROW row;
+
+    while ((row = mysql_fetch_row(result)))
+    {
+        Book book(
+            stoi(row[0]),
+            row[1] ? row[1] : "",
+            row[2] ? row[2] : "",
+            row[3] ? row[3] : "",
+            stoi(row[4]),
+            stoi(row[5]),
+            row[6] ? row[6] : "",
+            row[7] ? row[7] : "",
+            stoi(row[8]),
+            stoi(row[9])
+        );
+
+        books.push_back(book);
+    }
+
+    mysql_free_result(result);
+    return books;
+}
