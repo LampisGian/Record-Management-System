@@ -1,11 +1,12 @@
-//
 // Created by Charalampos Giannelis on 17/3/26.
-//
+//This file is responsible for the code headers of the DatabaseManager class, which manages the connection and operations on the 
+//end of the MySQL database for storing book records.
 
 #ifndef DATABASEMANAGER_HPP
 #define DATABASEMANAGER_HPP
 
 #include "Book.hpp"
+
 #include <mysql.h>
 #include <vector>
 

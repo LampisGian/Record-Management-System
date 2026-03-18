@@ -1,11 +1,13 @@
-//
 // Created by Charalampos Giannelis on 17/3/26.
-//
+//This file is responsible for the code implementation of the FileManager class, which manages 
+//the operations on the file for storing book records.
 
 #include "FileManager.hpp"
+
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+
 using namespace std;
 
 FileManager::FileManager(const string& fileName) : fileName(fileName)
@@ -47,14 +49,18 @@ vector<Book> FileManager::readAllRecords()
     }
 
     string line;
-    while (getline(inFile, line)) {
-        if (line.empty()) {
+    while (getline(inFile, line)) 
+    {
+        if (line.empty()) 
+        {
             continue;
         }
 
-        try {
+        try 
+        {
             books.push_back(Book::fromFileString(line));
-        } catch (...) {
+        } catch (...) 
+        {
             cout << "Warning: Invalid line skipped.\n";
         }
     }
@@ -63,16 +69,19 @@ vector<Book> FileManager::readAllRecords()
     return books;
 }
 
-void FileManager::displayAllRecords() {
+void FileManager::displayAllRecords() 
+{
     vector<Book> books = readAllRecords();
 
-    if (books.empty()) {
+    if (books.empty()) 
+    {
         cout << "\nNo records found in file.\n";
         return;
     }
 
     cout << "\n========== All Book Records ==========\n";
-    for (int i = 0; i < books.size(); i++) {
+    for (int i = 0; i < books.size(); i++) 
+    {
         cout << "\nRecord #" << i + 1 << endl;
         cout << "--------------------------\n";
         books[i].display();
@@ -83,12 +92,14 @@ bool FileManager::rewriteAllRecords(const vector<Book>& books)
 {
     ofstream outFile(fileName, ios::trunc);
 
-    if (!outFile.is_open()) {
+    if (!outFile.is_open()) 
+    {
         cout << "Error: Could not open file for rewriting: " << fileName << endl;
         return false;
     }
 
-    for (const Book& book : books) {
+    for (const Book& book : books) 
+    {
         outFile << book.toFileString() << "\n";
     }
 
@@ -96,11 +107,14 @@ bool FileManager::rewriteAllRecords(const vector<Book>& books)
     return true;
 }
 
-bool FileManager::searchRecordByID(int bookId) {
+bool FileManager::searchRecordByID(int bookId) 
+{
     vector<Book> books = readAllRecords();
 
-    for (const Book& book : books) {
-        if (book.getBookId() == bookId) {
+    for (const Book& book : books) 
+    {
+        if (book.getBookId() == bookId) 
+        {
             cout << "\nBook found:\n";
             cout << "--------------------------\n";
             book.display();
@@ -115,37 +129,44 @@ bool FileManager::searchRecordByID(int bookId) {
 void FileManager::sortRecordsByTitle() {
     vector<Book> books = readAllRecords();
 
-    if (books.empty()) {
+    if (books.empty()) 
+    {
         cout << "\nNo records found in file.\n";
         return;
     }
 
-    sort(books.begin(), books.end(), [](const Book& a, const Book& b) {
+    sort(books.begin(), books.end(), [](const Book& a, const Book& b) 
+    {
         return a.getTitle() < b.getTitle();
     });
 
     cout << "\n========== Books Sorted by Title ==========\n";
-    for (int i = 0; i < books.size(); i++) {
+    for (int i = 0; i < books.size(); i++) 
+    {
         cout << "\nRecord #" << i + 1 << endl;
         cout << "--------------------------\n";
         books[i].display();
     }
 }
 
-void FileManager::sortRecordsByYear() {
+void FileManager::sortRecordsByYear() 
+{
     vector<Book> books = readAllRecords();
 
-    if (books.empty()) {
+    if (books.empty()) 
+    {
         cout << "\nNo records found in file.\n";
         return;
     }
 
-    sort(books.begin(), books.end(), [](const Book& a, const Book& b) {
+    sort(books.begin(), books.end(), [](const Book& a, const Book& b) 
+    {
         return a.getPublicationYear() < b.getPublicationYear();
     });
 
     cout << "\n========== Books Sorted by Publication Year ==========\n";
-    for (int i = 0; i < books.size(); i++) {
+    for (int i = 0; i < books.size(); i++) 
+    {
         cout << "\nRecord #" << i + 1 << endl;
         cout << "--------------------------\n";
         books[i].display();
@@ -166,7 +187,8 @@ bool FileManager::exportToCSV(const string& csvFilename)
 
     csvFile << "Book ID,Title,Author,Genre,Publication Year,Quantity,Publisher,Language,Pages,Age Suitability\n";
 
-    for (const Book& book : books) {
+    for (const Book& book : books) 
+    {
         csvFile << book.getBookId() << ","
                 << "\"" << book.getTitle() << "\","
                 << "\"" << book.getAuthor() << "\","

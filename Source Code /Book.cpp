@@ -1,11 +1,14 @@
-//
 // Created by Charalampos Giannelis on 17/3/26.
-//
+//This file is responsible for the code implementation of the Book class, which represents a book in the library system. 
+//It includes constructors, getter and setter methods for each attribute, a method to display book information, and methods to convert book data to and from a string
+//format suitable for file storage.
 
 #include "Book.hpp"
+
 #include <iostream>
 #include <sstream>
 #include <vector>
+
 using namespace std;
 
 Book::Book()

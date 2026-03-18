@@ -1,15 +1,18 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include <ctime>
+
 #include "Book.hpp"
 #include "FileManager.hpp"
 #include "DatabaseManager.hpp"
 #include "BookService.hpp"
-#include <ctime>
+
 
 using namespace std;
 
-int getCurrentYear() {
+int getCurrentYear() 
+{
     time_t now = time(0);
     tm* localTime = localtime(&now);
     return 1900 + localTime->tm_year;
@@ -17,14 +20,17 @@ int getCurrentYear() {
 
 
 
-int readInt(const string& message) {
+int readInt(const string& message) 
+{
     int value;
 
-    while (true) {
+    while (true) 
+    {
         cout << message;
         cin >> value;
 
-        if (cin.fail()) {
+        if (cin.fail()) 
+        {
             cout << "Invalid input. Please enter a valid number.\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -36,13 +42,16 @@ int readInt(const string& message) {
     }
 }
 
-int readPositiveInt(const string& message) {
+int readPositiveInt(const string& message) 
+{
     int value;
 
-    while (true) {
+    while (true) 
+    {
         value = readInt(message);
 
-        if (value < 0) {
+        if (value < 0) 
+        {
             cout << "Value cannot be negative. Please try again.\n";
             continue;
         }
@@ -70,14 +79,17 @@ int readValidYear(const string& message)
     }
 }
 
-string readNonEmptyString(const string& message) {
+string readNonEmptyString(const string& message) 
+{
     string value;
 
-    while (true) {
+    while (true) 
+    {
         cout << message;
         getline(cin, value);
 
-        if (value.empty()) {
+        if (value.empty()) 
+        {
             cout << "This field cannot be empty. Please try again.\n";
             continue;
         }
@@ -86,7 +98,8 @@ string readNonEmptyString(const string& message) {
     }
 }
 
-void showMenu() {
+void showMenu() 
+{
     cout << "\n========== Library Book Management System ==========\n";
     cout << "1. Add Book\n";
     cout << "2. Display All Books\n";
@@ -100,7 +113,8 @@ void showMenu() {
     cout << "Enter your choice: ";
 }
 
-Book editBook(const Book& oldBook) {
+Book editBook(const Book& oldBook) 
+{
     cout << "\nCurrent record:\n";
     cout << "--------------------------\n";
     oldBook.display();
@@ -129,7 +143,8 @@ Book editBook(const Book& oldBook) {
     );
 }
 
-Book inputBook() {
+Book inputBook() 
+{
     int bookId = readPositiveInt("Enter Book ID: ");
     string title = readNonEmptyString("Enter Title: ");
     string author = readNonEmptyString("Enter Author: ");
@@ -145,41 +160,56 @@ Book inputBook() {
                 publisher, language, pages, ageSuitability);
 }
 
-int main() {
+int main() 
+{
     int choice;
 
     FileManager fileManager("/Users/lampis/Documents/GitHub/Record-Management-System/books.txt");
     DatabaseManager dbManager;
     BookService bookService(fileManager, dbManager);
 
-    if (!dbManager.connectDB()) {
+    if (!dbManager.connectDB()) 
+    {
         cout << "Warning: Program continues, but database is not connected.\n";
-    } else {
+    } 
+    else 
+    {
         dbManager.createTable();
-        if (bookService.syncFileWithDatabase()) {
+        
+        if (bookService.syncFileWithDatabase()) 
+        {
             cout << "File synchronized with database successfully at startup.\n";
-        } else {
+        } 
+        else 
+        {
             cout << "Failed to synchronize file at startup.\n";
         }
     }
 
-    do {
+    do 
+    {
         showMenu();
         choice = readInt("Enter your choice: ");
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-        switch (choice) {
-            case 1: {
+        switch (choice) 
+        {
+            case 1: 
+            {
                 Book newBook = inputBook();
 
-                if (bookService.isBookIDExists(newBook.getBookId())) {
+                if (bookService.isBookIDExists(newBook.getBookId())) 
+                {
                     cout << "\nA book with this ID already exists. Please use a different ID.\n";
                     break;
                 }
 
-                if (bookService.addBook(newBook)) {
+                if (bookService.addBook(newBook)) 
+                {
                     cout << "\nBook added successfully.\n";
-                } else {
+                } 
+                else 
+                {
                     cout << "\nFailed to add book.\n";
                 }
                 break;
@@ -189,7 +219,8 @@ int main() {
                 bookService.displayAllBooks();
                 break;
 
-            case 3: {
+            case 3: 
+            {
                 int searchId = readPositiveInt("Enter Book ID to search: ");
                 bookService.searchBookByID(searchId);
                 break;
@@ -201,27 +232,35 @@ int main() {
 
                 Book existingBook;
 
-                if (!bookService.findBookByID(updateId, existingBook)) {
+                if (!bookService.findBookByID(updateId, existingBook)) 
+                {
                     cout << "\nNo record found with Book ID " << updateId << ".\n";
                     break;
                 }
 
                 Book updatedBook = editBook(existingBook);
 
-                if (bookService.updateRecord(updatedBook)) {
+                if (bookService.updateRecord(updatedBook)) 
+                {
                     cout << "\nBook updated successfully.\n";
-                } else {
+                } 
+                else 
+                {
                     cout << "\nFailed to update book.\n";
                 }
                 break;
             }
 
-            case 5: {
+            case 5: 
+            {
                 int deleteId = readPositiveInt("Enter Book ID to delete: ");
 
-                if (bookService.deleteRecord(deleteId)) {
+                if (bookService.deleteRecord(deleteId)) 
+                {
                     cout << "\nBook deleted successfully.\n";
-                } else {
+                } 
+                else 
+                {
                     cout << "\nDelete failed or record not found.\n";
                 }
                 break;
@@ -241,10 +280,13 @@ int main() {
                 {
                 string csvPath = "/Users/lampis/Documents/GitHub/Record-Management-System/books.csv";
 
-                if (bookService.exportBooksToCSV(csvPath)) {
+                if (bookService.exportBooksToCSV(csvPath)) 
+                {
                     cout << "\nBooks exported successfully to CSV.\n";
                     cout << "CSV file: " << csvPath << endl;
-                } else {
+                } 
+                else 
+                {
                     cout << "\nFailed to export books to CSV.\n";
                 }
                 break;

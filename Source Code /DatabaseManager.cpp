@@ -1,10 +1,11 @@
-//
 // Created by Charalampos Giannelis on 17/3/26.
-//
+//This files is responsible for the code implementation of the DatabaseManager class, which manages the connection and operations
+// with the MySQL database for storing book records.
 
 #include "DatabaseManager.hpp"
 
 #include <iostream>
+
 using namespace std;
 
 DatabaseManager::DatabaseManager()

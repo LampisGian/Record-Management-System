@@ -1,10 +1,10 @@
-//
 // Created by Charalampos Giannelis on 17/3/26.
-//
+//This file is responsible for the functions headers of the Book class, which represents a book in the library system.
 #ifndef ΒΟΟΚ_HPP
 #define ΒΟΟΚ_HPP
 
 #include <string>
+
 using namespace std;
 
 class Book
