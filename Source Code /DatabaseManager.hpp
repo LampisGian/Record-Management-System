@@ -25,6 +25,7 @@ public:
     bool createTable();
     bool addRecordToDB(const Book& book);
     vector<Book> getAllRecords();
+    bool deleteRecordFromDB(int bookId);
 };
 
 #endif //DATABASEMANAGER_HPP

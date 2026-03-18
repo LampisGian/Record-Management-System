@@ -1,0 +1,46 @@
+//
+// Created by Charalampos Giannelis on 18/3/26.
+//
+
+#include "BookService.hpp"
+#include <iostream>
+using namespace std;
+
+BookService::BookService(FileManager& fileManager, DatabaseManager& dbManager)
+    : fileManager(fileManager), dbManager(dbManager)
+{}
+
+bool BookService::syncFileWithDatabase()
+{
+    vector<Book> allBooks = dbManager.getAllRecords();
+    return fileManager.rewriteAllRecords(allBooks);
+}
+
+bool BookService::addBook(const Book& book)
+{
+    if (!dbManager.addRecordToDB(book))
+    {
+        return false;
+    }
+
+    return syncFileWithDatabase();
+}
+
+void BookService::displayAllBooks()
+{
+    fileManager.displayAllRecords();
+}
+
+bool BookService::searchBookByID(int bookId)
+{
+    return fileManager.searchRecordByID(bookId);
+}
+
+bool BookService::deleteRecord(int bookId)
+{
+    if (!dbManager.deleteRecordFromDB(bookId)) {
+        return false;
+    }
+
+    return syncFileWithDatabase();
+}

@@ -4,6 +4,7 @@
 #include "Book.hpp"
 #include "FileManager.hpp"
 #include "DatabaseManager.hpp"
+#include "BookService.hpp"
 
 using namespace std;
 
@@ -67,18 +68,13 @@ int main() {
 
     FileManager fileManager("/Users/lampis/Documents/GitHub/Record-Management-System/books.txt");
     DatabaseManager dbManager;
+    BookService bookService(fileManager, dbManager);
 
     if (!dbManager.connectDB()) {
         cout << "Warning: Program continues, but database is not connected.\n";
     } else {
-        if (dbManager.createTable()) {
-            cout << "Table ready.\n";
-        }
-
-        vector<Book> allBooks = dbManager.getAllRecords();
-        cout << "Books loaded at startup: " << allBooks.size() << endl;
-
-        if (fileManager.rewriteAllRecords(allBooks)) {
+        dbManager.createTable();
+        if (bookService.syncFileWithDatabase()) {
             cout << "File synchronized with database successfully at startup.\n";
         } else {
             cout << "Failed to synchronize file at startup.\n";
@@ -94,41 +90,45 @@ int main() {
             case 1: {
                 Book newBook = inputBook();
 
-                if (dbManager.addRecordToDB(newBook)) {
-                    vector<Book> allBooks = dbManager.getAllRecords();
-
-                    if (fileManager.rewriteAllRecords(allBooks)) {
-                        cout << "\nBook added successfully. File synchronized with database.\n";
-                    } else {
-                        cout << "\nBook added to database, but file synchronization failed.\n";
-                    }
+                if (bookService.addBook(newBook)) {
+                    cout << "\nBook added successfully.\n";
                 } else {
-                    cout << "\nDatabase insert failed. File was not updated.\n";
+                    cout << "\nFailed to add book.\n";
                 }
                 break;
             }
 
             case 2:
-                fileManager.displayAllRecords();
+                bookService.displayAllBooks();
                 break;
 
             case 3: {
                 int searchId;
-
                 cout << "Enter Book ID to search: ";
                 cin >> searchId;
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-                fileManager.searchRecordByID(searchId);
+                bookService.searchBookByID(searchId);
                 break;
             }
+
             case 4:
                 cout << "Update Book will be implemented next.\n";
                 break;
 
-            case 5:
-                cout << "Delete Book will be implemented next.\n";
+            case 5: {
+                int deleteId;
+                cout << "Enter Book ID to delete: ";
+                cin >> deleteId;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                if (bookService.deleteRecord(deleteId)) {
+                    cout << "\nBook deleted successfully.\n";
+                } else {
+                    cout << "\nDelete failed or record not found.\n";
+                }
                 break;
+            }
 
             case 6:
                 cout << "Sort Books by Title will be implemented next.\n";

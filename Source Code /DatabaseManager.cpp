@@ -140,3 +140,22 @@ vector<Book> DatabaseManager::getAllRecords()
     mysql_free_result(result);
     return books;
 }
+
+bool DatabaseManager::deleteRecordFromDB(int bookId)
+{
+    string query = "DELETE FROM books WHERE book_id = " + to_string(bookId);
+
+    if (mysql_query(conn, query.c_str()))
+        {
+        cout << "Delete failed: " << mysql_error(conn) << endl;
+        return false;
+    }
+
+    if (mysql_affected_rows(conn) == 0)
+    {
+        cout << "No record found with Book ID " << bookId << " in database.\n";
+        return false;
+    }
+
+    return true;
+}
