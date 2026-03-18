@@ -26,6 +26,8 @@ public:
     bool addRecordToDB(const Book& book);
     vector<Book> getAllRecords();
     bool deleteRecordFromDB(int bookId);
+    bool findRecordByIDInDB(int bookId, Book& foundBook);
+    bool updateRecordInDB(const Book& book);
 };
 
 #endif //DATABASEMANAGER_HPP
