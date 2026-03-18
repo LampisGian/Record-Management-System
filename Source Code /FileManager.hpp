@@ -22,6 +22,8 @@ public:
     vector<Book> readAllRecords();
     void displayAllRecords();
     bool rewriteAllRecords(const vector<Book>& books);
+    bool searchRecordByID(int bookId);
+
 };
 
 #endif //FILEMANAGER_HPP

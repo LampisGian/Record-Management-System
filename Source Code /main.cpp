@@ -112,10 +112,16 @@ int main() {
                 fileManager.displayAllRecords();
                 break;
 
-            case 3:
-                cout << "Search Book by ID will be implemented next.\n";
-                break;
+            case 3: {
+                int searchId;
 
+                cout << "Enter Book ID to search: ";
+                cin >> searchId;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                fileManager.searchRecordByID(searchId);
+                break;
+            }
             case 4:
                 cout << "Update Book will be implemented next.\n";
                 break;

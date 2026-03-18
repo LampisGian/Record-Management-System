@@ -95,3 +95,19 @@ bool FileManager::rewriteAllRecords(const vector<Book>& books)
     outFile.close();
     return true;
 }
+
+bool FileManager::searchRecordByID(int bookId) {
+    vector<Book> books = readAllRecords();
+
+    for (const Book& book : books) {
+        if (book.getBookId() == bookId) {
+            cout << "\nBook found:\n";
+            cout << "--------------------------\n";
+            book.display();
+            return true;
+        }
+    }
+
+    cout << "\nBook with ID " << bookId << " was not found.\n";
+    return false;
+}
