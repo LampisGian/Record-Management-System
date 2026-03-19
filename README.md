@@ -15,9 +15,14 @@ A Library Book Management System developed in C++ with MySQL support for storing
 The system has been designed so that the file containing the records stays synchronized with the database. The database acts as the main source of data, while the record file is updated accordingly to reflect the latest changes. In this way, records are stored consistently both in the database and in the file-based copy.
 
 ## CLI Menu Overview
+![Screenshot](Screenshots/CLI_menu.png)
+
 
 The application uses a **Command Line Interface (CLI) menu** to allow the user to interact with the system in a simple and organized way. When the program is executed through `main.cpp`, the menu appears on the terminal and displays all available operations for managing the book records.
 
 Through this menu, the user can choose different options such as adding a new book, displaying all stored books, searching for a specific record by ID, updating an existing record, deleting a record, sorting the records, and exporting them to CSV format. Each option is connected to the corresponding function of the system, making the application easy to navigate and use.
 
 The menu is the main interaction point between the user and the application. It is designed to keep the workflow clear, since the user only needs to enter the number of the desired option and then follow the instructions shown on the screen. This makes the system practical, user-friendly, and suitable for demonstrating all the required functionalities of the project.
+
+The following screenshot shows how the books are displayed through the terminal menu created in the application.
+![Screenshot](Screenshots/book.png)
