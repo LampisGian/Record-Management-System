@@ -43,3 +43,7 @@
 21823	22048	1773837958480963397	Record_Management_System	17aa9266bf7d0a9e
 5	877	1773838108375167229	CMakeFiles/Record_Management_System.dir/Source_Code_/main.cpp.o	6675c26c4aab5ab1
 878	1042	1773838109248285094	Record_Management_System	17aa9266bf7d0a9e
+5041	8372	1773944637025262043	CMakeFiles/Record_Management_System.dir/Source_Code_/Book.cpp.o	e2be8ccf23433016
+5042	8550	1773944637026021840	CMakeFiles/Record_Management_System.dir/Source_Code_/DatabaseManager.cpp.o	67752a7efa54efac
+5043	9411	1773944637026327134	CMakeFiles/Record_Management_System.dir/Source_Code_/BookService.cpp.o	79e01688fdc8a593
+9411	13091	1773944641395120934	Record_Management_System	17aa9266bf7d0a9e
