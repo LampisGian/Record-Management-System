@@ -21,5 +21,3 @@ The application uses a **Command Line Interface (CLI) menu** to allow the user t
 Through this menu, the user can choose different options such as adding a new book, displaying all stored books, searching for a specific record by ID, updating an existing record, deleting a record, sorting the records, and exporting them to CSV format. Each option is connected to the corresponding function of the system, making the application easy to navigate and use.
 
 The menu is the main interaction point between the user and the application. It is designed to keep the workflow clear, since the user only needs to enter the number of the desired option and then follow the instructions shown on the screen. This makes the system practical, user-friendly, and suitable for demonstrating all the required functionalities of the project.
-
-The following screenshot shows the appearance of the CLI menu when the application starts.
