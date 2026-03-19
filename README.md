@@ -25,4 +25,5 @@ Through this menu, the user can choose different options such as adding a new bo
 The menu is the main interaction point between the user and the application. It is designed to keep the workflow clear, since the user only needs to enter the number of the desired option and then follow the instructions shown on the screen. This makes the system practical, user-friendly, and suitable for demonstrating all the required functionalities of the project.
 
 The following screenshot shows how the books are displayed through the terminal menu created in the application.
+
 ![Screenshot](Screenshots/book.png)
