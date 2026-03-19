@@ -3,6 +3,8 @@
 ## Description
 A Library Book Management System developed in C++ with MySQL support for storing and managing book records. The application provides a menu-driven command-line interface that allows users to add, display, search, update, and delete book records efficiently. It also includes sorting options, CSV export functionality, and basic input validation and error handling. In addition, the system maintains synchronization between the MySQL database and a file-based copy of the records, combining structured database management with file-based backup and access.
 
+All record modifications are performed through the database, which acts as the main source of truth for the system. At the same time, a local file copy is kept continuously synchronized with the database so that the stored records always reflect the most recent updates.
+
 ## Getting Started
 1. Clone this repository or download the project files.
 2. Open the project in your C++ IDE or editor.
